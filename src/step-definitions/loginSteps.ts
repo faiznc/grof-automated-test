@@ -29,6 +29,11 @@ Then("I should be navigated to {string} page", (pageTitle: string) => {
   loginPage.navigatedToCustomPage(pageTitle);
 });
 
+Then('I should see a notification with this text {string}', async (shownText: string) => {
+  let actual:string = await loginPage.getAnyNotification();
+  console.log(actual)
+})
+
 // Then("I should be redirected to the dashboard", async function() {
 //   const driver = await loginPage["driver"];
 //   const currentUrl = await driver.getCurrentUrl();

@@ -21,10 +21,20 @@ export class LoginPage {
   }
 
   async navigatedToCustomPage(pageTitle: string) {
-    // await DriverFactory.sleepDriver(2000);
     // Expected to stale.
     await this.driver.wait(until.stalenessOf(await this.driver.findElement(By.xpath("//h1"))));
-    await this.driver.wait(until.elementTextIs(this.driver.findElement(By.xpath("//h1")), pageTitle),5000);
+
+    // Try to fetch the Page title
+    try{
+      await this.driver.wait(until.elementTextIs(this.driver.findElement(By.xpath("//h1")), pageTitle),5000);
+    }
+
+    // Handle if page title isn't changed yet
+    catch{
+      await DriverFactory.sleepDriver(1000);
+      await this.driver.wait(until.elementTextIs(this.driver.findElement(By.xpath("//h1")), pageTitle),5000);
+    }
+
     assert.strictEqual(await this.driver.findElement(By.xpath("//h1")).getText(), pageTitle);
   }
 
@@ -35,9 +45,13 @@ export class LoginPage {
   async clickContinueBtn() {
     await this.driver.findElement(this.CONTINUE_BTN).click();
   }
-
+  
   async insertTextToTextbox(text: string, type: string) {
     const locator = By.xpath("//input[@name='" + type + "']");
     await this.driver.findElement(locator).sendKeys(text);
+  }
+
+  async getAnyNotification(): Promise<string> {
+    return this.driver.findElement(By.xpath("//span")).getText()
   }
 }
