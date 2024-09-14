@@ -34,9 +34,3 @@ Then('I should see a notification with this text {string}', async (expected: str
   let actual:string = await loginPage.getAnyNotification();
   assert.equal(actual, expected)
 })
-
-// Then("I should be redirected to the dashboard", async function() {
-//   const driver = await loginPage["driver"];
-//   const currentUrl = await driver.getCurrentUrl();
-//   expect(currentUrl).to.equal("http://example.com/dashboard");
-// });

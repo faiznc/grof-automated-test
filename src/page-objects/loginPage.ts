@@ -4,18 +4,18 @@ import { config } from "../utils/config";
 import assert from "assert";
 
 export class LoginPage {
-  private driver: WebDriver;
+  private driver!: WebDriver;
 
   LOGIN_TITLE: string = "Grof Co";
   EMAIL_INPUT: By = By.xpath("//input[@name='emailAddress']");
   CONTINUE_BTN: By = By.xpath("//button[normalize-space()='Continue']");
 
-  constructor() {
-    this.driver = DriverFactory.getDriver();
-    console.log("STARTED!");
-  }
+  async init() {
+    this.driver = await DriverFactory.getDriver();
+  }  
 
   async navigateToLoginPage() {
+    await this.init();
     await this.driver.get(config.baseUrl);
     assert.strictEqual(await this.driver.getTitle(), "Grof Co");
   }
@@ -26,13 +26,13 @@ export class LoginPage {
 
     // Try to fetch the Page title
     try{
-      await this.driver.wait(until.elementTextIs(this.driver.findElement(By.xpath("//h1")), pageTitle),5000);
+      await this.driver.wait(until.elementTextIs(this.driver.findElement(By.xpath("//h1")), pageTitle),2000);
     }
 
     // Handle if page title isn't changed yet
     catch{
-      await DriverFactory.sleepDriver(1000);
-      await this.driver.wait(until.elementTextIs(this.driver.findElement(By.xpath("//h1")), pageTitle),5000);
+      await DriverFactory.sleepDriver(200);
+      await this.driver.wait(until.elementTextIs(this.driver.findElement(By.xpath("//h1")), pageTitle),2000);
     }
 
     assert.strictEqual(await this.driver.findElement(By.xpath("//h1")).getText(), pageTitle);
@@ -52,6 +52,6 @@ export class LoginPage {
   }
 
   async getAnyNotification(): Promise<string> {
-    return this.driver.findElement(By.xpath("//span")).getText()
+    return this.driver.findElement(By.xpath("//div[contains(@class,'bg')]/span")).getText()
   }
 }
