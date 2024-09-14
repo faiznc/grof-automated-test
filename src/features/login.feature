@@ -1,6 +1,7 @@
 @LoginFeature
 Feature: Login functionality
 
+  @GROF-1
   Scenario: GROF-1 : Successful login with valid credentials
     Given I am on the login page
     When I insert "testing@grof.co" as the email on the login page
@@ -11,6 +12,7 @@ Feature: Login functionality
     When I insert "123456" as the "otp" on the login page
     Then I should be navigated to "List Bills" page
   
+  @GROF-2
   Scenario: GROF-2 : Login attempt with Invalid Email
     Given I am on the login page
     When I insert "wrong@email" as the email on the login page
@@ -18,6 +20,7 @@ Feature: Login functionality
     Then I should see a notification with this text "Couldn’t found your account. Please login with registered credential"
     Then I should be navigated to "Enter Your Phone Number or Email" page
   
+  @GROF-3
   Scenario: GROF-3 : Login attempt with Invalid PIN
     Given I am on the login page
     When I insert "testing@grof.co" as the email on the login page
@@ -27,6 +30,7 @@ Feature: Login functionality
     Then I should see a notification with this text "Wrong PIN for 1st attempt! Your account will be blocked after 3rd attempt!"
     Then I should be navigated to "Enter Your PIN" page
 
+  @GROF-4
   Scenario: GROF-4 : Login attempt with Invalid OTP
     Given I am on the login page
     When I insert "testing@grof.co" as the email on the login page
