@@ -1,5 +1,6 @@
 import { Given, When, Then } from "cucumber";
 import { LoginPage } from "../page-objects/loginPage";
+import assert from "assert";
 
 const loginPage = new LoginPage();
 
@@ -29,9 +30,9 @@ Then("I should be navigated to {string} page", (pageTitle: string) => {
   loginPage.navigatedToCustomPage(pageTitle);
 });
 
-Then('I should see a notification with this text {string}', async (shownText: string) => {
+Then('I should see a notification with this text {string}', async (expected: string) => {
   let actual:string = await loginPage.getAnyNotification();
-  console.log(actual)
+  assert.equal(actual, expected)
 })
 
 // Then("I should be redirected to the dashboard", async function() {
