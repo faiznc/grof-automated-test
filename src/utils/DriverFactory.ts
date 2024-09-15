@@ -1,23 +1,25 @@
 import { Builder, WebDriver } from "selenium-webdriver";
 
 export class DriverFactory {
-  private static driver: WebDriver;
+  private static driver: WebDriver | null;
 
-  public static getDriver(): WebDriver {
+  public static async getDriver(): Promise<WebDriver> {
+    await this.sleepDriver(500); // Wait for initialization
+
     if (!DriverFactory.driver) {
-      DriverFactory.driver = new Builder().forBrowser("chrome").build();
+      DriverFactory.driver = await new Builder().forBrowser("chrome").build();
     }
     // Set implicit waits
-    this.driver.manage().setTimeouts({ implicit: 5000 });
-
+    await DriverFactory.driver.manage().setTimeouts({ implicit: 15000 });
     return DriverFactory.driver;
   }
 
-  public static quitDriver(): void {
-    new Promise((f) => setTimeout(f, 3000));
+  public static async quitDriver(): Promise<void> {
     if (DriverFactory.driver) {
-      DriverFactory.driver.quit();
+      await DriverFactory.driver.quit();
+      DriverFactory.driver = null;
     }
+    await this.sleepDriver(1000); // Wait for driver to truly closed
   }
 
   public static async sleepDriver(durationMs: number): Promise<void> {

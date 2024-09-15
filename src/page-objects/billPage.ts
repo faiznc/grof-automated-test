@@ -6,7 +6,6 @@ import assert from "assert";
 export class BillPage {
   private driver!: WebDriver;
 
-  LOGIN_TITLE: string = "Grof Co";
   APPROVE_BTN: By = By.xpath("//button[normalize-space()='APPROVE']");
   BACK_BTN: By = By.xpath("//h1/../div");
 

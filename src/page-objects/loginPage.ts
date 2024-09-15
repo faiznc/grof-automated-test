@@ -6,7 +6,6 @@ import assert from "assert";
 export class LoginPage {
   private driver!: WebDriver;
 
-  LOGIN_TITLE: string = "Grof Co";
   EMAIL_INPUT: By = By.xpath("//input[@name='emailAddress']");
   CONTINUE_BTN: By = By.xpath("//button[normalize-space()='Continue']");
 
@@ -26,13 +25,13 @@ export class LoginPage {
 
     // Try to fetch the Page title
     try{
-      await this.driver.wait(until.elementTextIs(this.driver.findElement(By.xpath("//h1")), pageTitle),2000);
+      await this.driver.wait(until.elementTextIs(this.driver.findElement(By.xpath("//h1")), pageTitle), 3000);
     }
 
     // Handle if page title isn't changed yet
     catch{
-      await DriverFactory.sleepDriver(200);
-      await this.driver.wait(until.elementTextIs(this.driver.findElement(By.xpath("//h1")), pageTitle),2000);
+      await DriverFactory.sleepDriver(500); // Wait for UI Animation
+      await this.driver.wait(until.elementTextIs(this.driver.findElement(By.xpath("//h1")), pageTitle));
     }
 
     assert.strictEqual(await this.driver.findElement(By.xpath("//h1")).getText(), pageTitle);
